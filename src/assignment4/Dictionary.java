@@ -7,12 +7,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Dictionary {
-	protected static ArrayList<String> dictionaryArray = new ArrayList<String>();
+	protected static ArrayList<String> dictionaryArray = new ArrayList<String>();    // store dictionary words here
+	
 	static char alphabet[] = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
 	protected int wordAmount;
-	public static char nextLetter (char letter){
+	public static char nextLetter (char letter)
+	{
 		int index = 0;
-		for(int i = 0; i < alphabet.length; i++){
+		for(int i = 0; i < alphabet.length; i++)
+		{
 			if(letter == alphabet[i]){
 				index = (i + 1)% alphabet.length;
 				i=alphabet.length;
@@ -20,18 +23,21 @@ public class Dictionary {
 		}
 		return alphabet[index];
 	}
-	public Dictionary(String args[])
+	public Dictionary(String args[])                        //dictionary constructor, input is dictionary text file
 	{
 	    extractWords(args);  
 	    this.wordAmount = dictionaryArray.size();
 		
 	}
 	
+	
+	// retrieve amount of words in dictionary
 	public int  getSize ()
 	{
 		return wordAmount;
 	}
 	
+	// check if word from input text file is a dictionary word
 	public static boolean checkValid(String word)
 	{
 		
@@ -46,11 +52,13 @@ public class Dictionary {
 		return false;
 	}
 	
+	// moving words from dictionary text file into "dictionaryArray"
 	public void extractWords(String args[])
 	{
 		 try 
 	        {
-	         
+	         	
+			 	// reading input file line by line 
 	 			FileReader freader = new FileReader(args[0]);
 	 			BufferedReader reader = new BufferedReader(freader);
 	 			
@@ -63,7 +71,7 @@ public class Dictionary {
 				}
 	 			
 	 			
-	 			
+	 		//close readers	
 			reader.close();
 			freader.close();
 	        } 
@@ -85,3 +93,4 @@ public class Dictionary {
 	}
 
 }
+
