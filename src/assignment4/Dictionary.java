@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class Dictionary {
 	protected static ArrayList<String> dictionaryArray = new ArrayList<String>();
-	private static char alphabet[] = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
+	static char alphabet[] = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
 	protected int wordAmount;
 	public static char nextLetter (char letter){
 		int index = 0;
