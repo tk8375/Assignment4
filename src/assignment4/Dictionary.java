@@ -8,8 +8,18 @@ import java.util.ArrayList;
 
 public class Dictionary {
 	protected static ArrayList<String> dictionaryArray = new ArrayList<String>();
+	private static char alphabet[] = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
 	protected int wordAmount;
-	
+	public static char nextLetter (char letter){
+		int index = 0;
+		for(int i = 0; i < alphabet.length; i++){
+			if(letter == alphabet[i]){
+				index = (i + 1)% alphabet.length;
+				i=alphabet.length;
+			}
+		}
+		return alphabet[index];
+	}
 	public Dictionary(String args[])
 	{
 	    extractWords(args);  
@@ -22,7 +32,7 @@ public class Dictionary {
 		return wordAmount;
 	}
 	
-	public boolean checkValid(String word)
+	public static boolean checkValid(String word)
 	{
 		
 		for (int i=0; i<dictionaryArray.size(); i++)
