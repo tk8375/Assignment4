@@ -12,6 +12,7 @@ import java.util.Iterator;
 // do not change class name or interface it implements
 public class WordLadderSolver implements Assignment4Interface
 {
+	
     // declare class members here.
 	private List<String> wordLadder;
 	private ArrayList<String> wordArray;
@@ -37,7 +38,34 @@ public class WordLadderSolver implements Assignment4Interface
     @Override
     public boolean validateResult(String startWord, String endWord, List<String> wordLadder) 
     {
-        throw new UnsupportedOperationException("Not implemented yet!");
+    	
+    	
+    	for (int i=0; i<wordLadder.size();i++)
+    	{
+    		if(!Dictionary.checkValid(wordLadder.get(i)))
+    		{
+    			return false;
+    		}
+    		
+    	}
+    	
+    	for(int i=0; i<wordLadder.size()-1;i++)
+    	{
+    		
+    		if(i<wordLadder.size())
+    		{
+    			if (!oneLetter(wordLadder.get(i),wordLadder.get(i+1)))
+    			{
+    				return false;
+    			}
+    		}
+    	}
+    	return true;
+    	
+        //throw new UnsupportedOperationException("Not implemented yet!");
+        
+        
+        
     }
 
     // add additional methods here
@@ -99,6 +127,24 @@ public class WordLadderSolver implements Assignment4Interface
 		wordLadder.remove(startWord);
 		return false;
 	}
+	
+	
+	 public static boolean oneLetter(String word1, String word2)
+	 {
+	    	int wordSize=word1.length();
+	    	int diffCount=0;
+	    	for(int i=0; i<wordSize; i++)
+	    	{
+	    		if(word1.charAt(i) != word2.charAt(i))
+	    		{
+	    			diffCount++;
+	    		}
+	    	}
+	    	if (diffCount ==1)
+	    		return true;
+	    	else
+	    		return false;
+	 }
 
 	private int NumOfDiff(String word, String endWord) {
 		int diff = 0;
