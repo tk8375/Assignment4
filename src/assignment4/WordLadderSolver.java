@@ -27,6 +27,7 @@ public class WordLadderSolver implements Assignment4Interface
     	wordArray = new ArrayList<String>();
         //throw new UnsupportedOperationException("Not implemented yet!");
     	MakeLadder(startWord, endWord, -1);
+    	sortLadder();
     	Iterator<String> i =wordLadder.iterator();
     	while(i.hasNext()){
     		System.out.println(i.next());
@@ -44,16 +45,12 @@ public class WordLadderSolver implements Assignment4Interface
     
 	boolean MakeLadder(String startWord, String endWord, int positionChanged)
 	{
-		ArrayList<String> candidateList = new ArrayList<>();
 		
 		if(wordArray.contains(startWord)){
 			return false;
 		}
 		wordLadder.add(startWord);
 		wordArray.add(startWord);
-		
-		// PART I: Create the list of candidate words
-		// iterate through every character position in the fromWord
 		for(int a = 0; a <startWord.length(); a ++){
 			if(a != positionChanged){
 				char letter = Dictionary.nextLetter(startWord.charAt(a));
@@ -71,29 +68,15 @@ public class WordLadderSolver implements Assignment4Interface
 								wordLadder.add(endWord);
 								return true;
 							}
-							word.insert(0, diff);
-							word.append(a);
-							
-							candidateList.add(word.toString());
-//							if(!MakeLadder(word.toString(),endWord,a)){
-//								wordLadder.remove(word.toString());
-//							}
-//							else{return true;}
+							if(!MakeLadder(word.toString(),endWord,a)){
+								wordLadder.remove(word.toString());
+							}
+							else{return true;}
 						}
 					}
 				}
 			}
 			
-		}
-		for (String candidateWord : candidateList)
-		{
-			int candidateChangedPos = Integer.parseInt(candidateWord.substring(candidateWord.length() - 1));
-			String nextWord =  candidateWord.substring(1, candidateWord.length() - 1);
-			
-			if (MakeLadder(nextWord, endWord, candidateChangedPos))
-			{
-				return true;
-			}
 		}
 		
 		wordLadder.remove(startWord);
@@ -110,6 +93,15 @@ public class WordLadderSolver implements Assignment4Interface
 		}
 		
 		return diff;
+	}
+	private void sortLadder (){
+		for(int i = 0; i<wordLadder.size()-1;i++){
+			if(i+2 < wordLadder.size()){
+				if(NumOfDiff(wordLadder.get(i),wordLadder.get(i+2)) <= 1){
+					wordLadder.remove(i+1);
+				}
+			}
+		}
 	}
 
 	
