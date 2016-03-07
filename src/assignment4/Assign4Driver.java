@@ -17,7 +17,7 @@ public class Assign4Driver
     	
         Assignment4Interface wordLadderSolver = new WordLadderSolver();
         
-        Dictionary Glossary = new Dictionary(args);
+        Dictionary Glossary = new Dictionary(args);                       // initialize dictionary
 
 		 try 
 	        {
@@ -32,6 +32,7 @@ public class Assign4Driver
 	 					while(start < s.length() && s.charAt(start)==' '){
 	 						start++;
 	 					}
+	 					s=s.toLowerCase();
 						s=s.substring(start);
 						String spaceSeparator = "[ ]+";
 						String[] wordPair = s.split(spaceSeparator);                                          // place a pair of words from user in wordPair

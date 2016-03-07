@@ -11,6 +11,9 @@ public class Dictionary {
 	
 	static char alphabet[] = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
 	protected int wordAmount;
+	
+	//passes back the next letter in the alphabet given a letter
+	//ex c->d, u->v
 	public static char nextLetter (char letter)
 	{
 		int index = 0;

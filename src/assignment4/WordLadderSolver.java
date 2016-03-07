@@ -1,5 +1,6 @@
 /*
-    ADD YOUR HEADER HERE
+   Taewhan Ko (tk8375)
+   Steven Cisneros (snc782)
  */
 
 package assignment4;
@@ -17,7 +18,9 @@ public class WordLadderSolver implements Assignment4Interface
 	private ArrayList<String> wordArray;
 	String alphabet = "abcdefghijklmnopqrstuvwxyz";
     // add a constructor for this object. HINT: it would be a good idea to set up the dictionary there
-
+	public WordLadderSolver(){
+		
+	}
     // do not change signature of the method implemented from the interface
     @Override
     public List<String> computeLadder(String startWord, String endWord) throws NoSuchLadderException 
@@ -52,9 +55,16 @@ public class WordLadderSolver implements Assignment4Interface
 
     @Override
     public boolean validateResult(String startWord, String endWord, List<String> wordLadder) 
-    {
-    	
-    	
+    {//check if ladder is not empty
+    	if(wordLadder.size()>0 && wordLadder != null){
+    		//check ladder has the start and end words as the boundaries
+	    	if(!wordLadder.get(0).equals(startWord) || !wordLadder.get(wordLadder.size()-1).equals(endWord)){
+	    	
+	    	return false;
+	    	}
+	    	
+    	}
+    	//check if all the words in the ladder are valid dictionary words
     	for (int i=0; i<wordLadder.size();i++)
     	{
     		if(!Dictionary.checkValid(wordLadder.get(i)))
@@ -63,7 +73,7 @@ public class WordLadderSolver implements Assignment4Interface
     		}
     		
     	}
-    	
+    	//check all the words in the ladder are different by 1 letters
     	for(int i=0; i<wordLadder.size()-1;i++)
     	{
     		
@@ -75,8 +85,8 @@ public class WordLadderSolver implements Assignment4Interface
     			}
     		}
     	}
+
     	return true;
-    	
         //throw new UnsupportedOperationException("Not implemented yet!");
         
         
@@ -93,16 +103,26 @@ public class WordLadderSolver implements Assignment4Interface
 		}
 		wordLadder.add(startWord);
 		wordArray.add(startWord);
+		
+		// iterate through every character position in the fromWord
 		for(int a = 0; a <startWord.length(); a ++){
+			
+			//check if same position changed
 			if(a != positionChanged){
 				char letter = Dictionary.nextLetter(startWord.charAt(a));
+				
+				//check through all combination of letters
 				for(int b = 0; b < Dictionary.alphabet.length; b++){
 					if(b>0){
 						letter = Dictionary.nextLetter(letter);
 					}
+					
+					//make sure the letter didnt loop back around
 					if(letter != startWord.charAt(a)){
 						StringBuilder word = new StringBuilder(startWord);
 						word.setCharAt(a, letter);
+						
+						//make sure the word is valid and not repeating
 						if(Dictionary.checkValid(word.toString())&& !wordArray.contains(word.toString())){
 							int diff = NumOfDiff(word.toString(), endWord);
 							if (diff == 1){
@@ -110,6 +130,8 @@ public class WordLadderSolver implements Assignment4Interface
 								wordLadder.add(endWord);
 								return true;
 							}
+							
+							//recursion until the answer is reached
 							if(!MakeLadder(word.toString(),endWord,a)){
 								wordLadder.remove(word.toString());
 							}
@@ -120,12 +142,12 @@ public class WordLadderSolver implements Assignment4Interface
 			}
 			
 		}
-		
+		//no ladder created
 		wordLadder.remove(startWord);
 		return false;
 	}
 	
-	
+	//check if the two words are 1 letter apart for equivalent
 	 public static boolean oneLetter(String word1, String word2)
 	 {
 	    	int wordSize=word1.length();
@@ -142,7 +164,7 @@ public class WordLadderSolver implements Assignment4Interface
 	    	else
 	    		return false;
 	 }
-
+	 //tells how many letters are different between two words
 	private int NumOfDiff(String word, String endWord) {
 		int diff = 0;
 		for (int i = 0; i < word.length(); i++){
@@ -154,6 +176,7 @@ public class WordLadderSolver implements Assignment4Interface
 		
 		return diff;
 	}
+	//
 	private void sortLadder(){
 		for(int i = 0; i<wordLadder.size()-1;i++){
 			if(i+2 < wordLadder.size()){
