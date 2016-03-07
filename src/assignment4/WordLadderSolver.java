@@ -5,7 +5,6 @@
 package assignment4;
 
 import java.util.List;
-import java.util.Collections;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -23,17 +22,32 @@ public class WordLadderSolver implements Assignment4Interface
     @Override
     public List<String> computeLadder(String startWord, String endWord) throws NoSuchLadderException 
     {
+    	
         // implement this method
     	wordLadder = new ArrayList<String>();
     	wordArray = new ArrayList<String>();
+    	
         //throw new UnsupportedOperationException("Not implemented yet!");
-    	MakeLadder(startWord, endWord, -1);
-    	sortLadder();
-    	Iterator<String> i =wordLadder.iterator();
-    	while(i.hasNext()){
-    		System.out.println(i.next());
-    	}
-    	return wordLadder;
+		if (Dictionary.checkValid(startWord) && Dictionary.checkValid(endWord)){
+			if(NumOfDiff(startWord, endWord) <= 1){
+				wordLadder.add(startWord);
+				wordLadder.add(endWord);
+				return wordLadder;
+			}
+			
+			
+			if (MakeLadder(startWord, endWord, -1)){
+				sortLadder();
+				return wordLadder;
+			}
+		}
+			wordLadder.clear();
+			return wordLadder;
+
+//    	Iterator<String> i =wordLadder.iterator();
+//    	while(i.hasNext()){
+//    		System.out.println(i.next());
+//    	}
     }
 
     @Override
@@ -123,7 +137,7 @@ public class WordLadderSolver implements Assignment4Interface
 	    			diffCount++;
 	    		}
 	    	}
-	    	if (diffCount ==1)
+	    	if (diffCount <=1)
 	    		return true;
 	    	else
 	    		return false;
@@ -140,7 +154,7 @@ public class WordLadderSolver implements Assignment4Interface
 		
 		return diff;
 	}
-	private void sortLadder (){
+	private void sortLadder(){
 		for(int i = 0; i<wordLadder.size()-1;i++){
 			if(i+2 < wordLadder.size()){
 				if(NumOfDiff(wordLadder.get(i),wordLadder.get(i+2)) <= 1){

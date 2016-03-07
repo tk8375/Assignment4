@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Assign4Driver
 {
@@ -26,42 +27,58 @@ public class Assign4Driver
 	 			
 	 			for (String s = reader.readLine(); s != null; s = reader.readLine()) 
 				{
-					String[] wordPair = new String[2];
-					wordPair = s.split(" ");                                          // place a pair of words from user in wordPair
+	 				try{
+	 					int start = 0;
+	 					while(start < s.length() && s.charAt(start)==' '){
+	 						start++;
+	 					}
+						s=s.substring(start);
+						String spaceSeparator = "[ ]+";
+						String[] wordPair = s.split(spaceSeparator);                                          // place a pair of words from user in wordPair
 					
-					//any of the two words is not in dictionary
-					if( !Dictionary.checkValid(wordPair[0]) || !Dictionary.checkValid(wordPair[1]) )
-					{
+						//any of the two words is not in dictionary
+						if( !Dictionary.checkValid(wordPair[0]) || !Dictionary.checkValid(wordPair[1]) )
+						{
+							
+							System.out.println("At least one of the words :" + wordPair[0] + " and " + wordPair[1] + " are not found in the dictionary");
+							continue;
+						}
 						
-						System.err.println("At least one of the words :" + wordPair[0] + " and " + wordPair[1] + " are not found in the dictionary");
-						continue;
-					}
-					
-					
-					//Both words are in dictionary and ladder exists between them
-					
-					ladderSolution = wordLadderSolver.computeLadder(wordPair[0], wordPair[1]);
-					if(wordLadderSolver.validateResult(wordPair[0], wordPair[1],ladderSolution ))
-					{
 						
-						System.out.println("For the words: " + wordPair[0] + "and" + wordPair[1]+ ", this word ladder was found:");
-						//printList(solutionList); print 
-					}
-					
-					//Both words are in dictionary, but no ladder exists between them
-					else
-					{
+						//Both words are in dictionary and ladder exists between them
 						
-						System.err.println("There is no word ladder between words: " + wordPair[0] + " and " + wordPair[1] + "!");
+						ladderSolution = wordLadderSolver.computeLadder(wordPair[0], wordPair[1]);
+						if(wordLadderSolver.validateResult(wordPair[0], wordPair[1],ladderSolution ))
+						{
+							if(ladderSolution.isEmpty() || ladderSolution == null){
+								System.out.println("There is no word ladder between " + wordPair[0] + " and " + wordPair[1] + "!");
+							}
+							else{
+								System.out.println("For the words: " + wordPair[0] + " and " + wordPair[1]+ ", this word ladder was found:");
+								Iterator<String> i = ladderSolution.iterator();
+						    	while(i.hasNext()){
+					    		System.out.println(i.next());
+						    	}
+							}
+
+						}
+						
+						//Both words are in dictionary, but no ladder exists between them
+						else{
+							System.out.println("There is no word ladder between words: " + wordPair[0] + " and " + wordPair[1] + "!");
+						}
+						
+						//System.out.println("");
+						System.out.println("**********");
+						//clear solution and start over with new pair of words
+						
+						//ladderSolution = new ArrayList<String>();              // moving on to next line, need to clear ladder of List
+																			   // of previous set of words
 					}
-					
-					System.out.println("");
-					//clear solution and start over with new pair of words
-					
-					ladderSolution = new ArrayList<String>();              // moving on to next line, need to clear ladder of List
-																		   // of previous set of words
+	 				 catch (ArrayIndexOutOfBoundsException e){
+	 					continue;
+	 				 }
 				}
-				
 				
 				// close readers
 				reader.close();
@@ -71,13 +88,13 @@ public class Assign4Driver
 	        
 	        catch (FileNotFoundException e) 
 			{
-				System.err.println ("Error: File not found. Exiting...");
+				System.out.println ("Error: File not found. Exiting...");
 				e.printStackTrace();
 				System.exit(-1);
 			} 
 	        catch (IOException e) 
 			{
-				System.err.println ("Error: IO exception. Exiting...");
+				System.out.println ("Error: IO exception. Exiting...");
 				e.printStackTrace();
 				System.exit(-1);
 			}
@@ -85,6 +102,8 @@ public class Assign4Driver
 	        {
 	            e.printStackTrace();
 	        }
+
+		 
        /* try 
         {
             List<String> result = wordLadderSolver.computeLadder("booty", "money");

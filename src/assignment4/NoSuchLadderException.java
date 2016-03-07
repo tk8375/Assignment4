@@ -6,11 +6,11 @@ public class NoSuchLadderException extends Exception
 
     public NoSuchLadderException(String message)
     {
-        super(message);
+    	System.out.println(message);
     }
 
     public NoSuchLadderException(String message, Throwable throwable)
     {
-        super(message, throwable);
+        //super(message, throwable);
     }
 }
